@@ -5,9 +5,9 @@ class StripePayment extends AbstractPayment
     public function __construct(
         IPaymentClient $client,
         InvoiceEntity $invoiceEntity,
-        UserEntity $userEntity
+        UserEntity $userEntity,
         // дополнительные данные типа
-        //EntityManagerInterface $em
+        EntityManagerInterface $em
     )
     {
         parent::__construct($client, $invoiceEntity, $userEntity);
