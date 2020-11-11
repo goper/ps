@@ -7,5 +7,6 @@ interface IOuterTransaction
     public function isCanceled(): bool;
     public function isAwaitingGatewayResponse(): bool;
     public function getHash(): bool;
-    public function isEnoughData(): bool;
+    public function isValid(): bool;
+    public function isPayed(): bool;
 }

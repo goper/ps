@@ -4,20 +4,23 @@ Class StripePaymentClient implements IPaymentClient
 {
     protected $parser;
 
-    function __construct(StripeParser $parser)
+    public function __construct(StripeParser $parser)
     {
         $this->parser = $parser;
     }
 
-    public function createOuterTransaction(array $paymentData): IOuterTransaction
+    public function createOuterTransaction(array $paymentData): StripeOuterTransactionEntity
     {
-        // some logic
-        $answer = 'json-answer';
-        return $this->parser->parse($answer);
+        // todo code to create transaction
+        $answer = 'some_json_data';
+        return $this->parser->parseCreatedOuterTransaction($answer);
+
     }
 
-    public function retrieveOuterTransaction(string $hash): IOuterTransaction
+    public function retrieveOuterTransaction(string $hash): StripeOuterTransactionEntity
     {
-
+        // todo code to retrieve transaction
+        $answer = 'some_json_data';
+        return $this->parser->parseRetrievedOuterTransaction($answer);
     }
 }

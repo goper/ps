@@ -6,6 +6,7 @@ class InnerTransactionEntity
     public const CANCELED_STATUS = 'canceled';
     public const AWAITING_GATEWAY_RESPONSE_STATUS = 'awaiting_gateway_response';
     public const STARTED_STATUS = 'started';
+    public const PAYED_STATUS = 'payed';
 
     private $hash;
     private $status;
@@ -23,6 +24,11 @@ class InnerTransactionEntity
     public function changeStatus(string $status)
     {
         return $this->status = $status;
+    }
+
+    public function pay()
+    {
+        $this->status = self::PAYED_STATUS;
     }
 
     public function cancel()

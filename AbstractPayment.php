@@ -6,7 +6,11 @@ abstract class AbstractPayment
     protected $invoiceEntity;
     protected $userEntity;
 
-    public function __construct(IPaymentClient $paymentClient, InvoiceEntity $invoiceEntity, UserEntity $userEntity)
+    public function __construct(
+        IPaymentClient $paymentClient,
+        InvoiceEntity $invoiceEntity,
+        UserEntity $userEntity
+    )
     {
         $this->invoiceEntity = $invoiceEntity;
         $this->userEntity = $userEntity;
@@ -73,7 +77,7 @@ abstract class AbstractPayment
         $outerTransaction = $this->paymentClient->createOuterTransaction($paymentData);
 
         // данные заполнены неправильно (3d)
-        if ($outerTransaction->isEnoughData() === false) {
+        if ($outerTransaction->isValid() === false) {
             $this->redirectToPaymentForm();
         }
 
@@ -103,7 +107,14 @@ abstract class AbstractPayment
 
     public function confirmation(string $answer, IParser $parser)
     {
-        $outerTransaction = $parser->parse($answer);
+        $outerTransaction = $parser->parseConfirmation($answer);
+        $hash = $outerTransaction->getHash();
+        $innerTransactionEntity = $this->getTransactionByHash($hash);
+
+        if($outerTransaction->isPayed()) {
+            $innerTransactionEntity->pay();
+        }
+
     }
 
     /**
@@ -128,6 +139,8 @@ abstract class AbstractPayment
     abstract public function getActiveTransactionByInvoice(): InnerTransactionEntity;
 
     abstract public function getActiveTransactionById(int $id): InnerTransactionEntity;
+
+    abstract public function getTransactionByHash(string $hash): InnerTransactionEntity;
 
     /**
      * Создание транзакции в бд
