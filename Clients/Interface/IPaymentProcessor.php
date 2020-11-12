@@ -8,5 +8,4 @@ interface IPaymentProcessor
     public function formatter(): IFormatter;
     public function operation(): IOperation;
     public function registerOperation(string $operationName):void;
-
 }
