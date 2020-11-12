@@ -26,6 +26,11 @@ class StripePayment extends AbstractPayment
     {
     }
 
+    public function getTransactionByHash(string $hash): InnerTransactionEntity
+    {
+
+    }
+
     public function getActiveTransactionByInvoice(): InnerTransactionEntity
     {
     }

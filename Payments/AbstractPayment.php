@@ -1,6 +1,6 @@
 <?php
 
-abstract class AbstractPayment
+abstract class AbstractPayment implements IPayment
 {
     protected $paymentClient;
     protected $invoiceEntity;
@@ -105,7 +105,7 @@ abstract class AbstractPayment
         throw new Exception('Unknown error');
     }
 
-    public function confirmation(string $answer, IParser $parser)
+    public function confirmation(string $answer, IParser $parser): InnerTransactionEntity
     {
         $outerTransaction = $parser->parseConfirmation($answer);
         $hash = $outerTransaction->getHash();
@@ -114,6 +114,8 @@ abstract class AbstractPayment
         if($outerTransaction->isPayed()) {
             $innerTransactionEntity->pay();
         }
+
+        return $innerTransactionEntity;
 
     }
 
